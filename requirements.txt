@@ -1,1 +1,9 @@
 pandas
+requests
+pyarrow 
+pyspark 
+apache-airflow 
+dbt-core 
+mlflow 
+fastapi 
+uvicorn
