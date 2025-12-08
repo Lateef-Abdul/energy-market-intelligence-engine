@@ -7,3 +7,10 @@ dbt-core
 mlflow 
 fastapi 
 uvicorn
+
+openmeteo_requests
+requests_cache
+retry_requests
+
+azure-storage-blob
+python-dotenv
