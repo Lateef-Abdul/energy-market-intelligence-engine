@@ -1,4 +1,22 @@
 requests
 pandas
+<<<<<<< HEAD
 datetime
 sqlalchemy
+=======
+requests
+pyarrow 
+pyspark 
+apache-airflow 
+dbt-core 
+mlflow 
+fastapi 
+uvicorn
+
+openmeteo_requests
+requests_cache
+retry_requests
+
+azure-storage-blob
+python-dotenv
+>>>>>>> ebc5162f9d910bda55b975c19b188845613cec17
