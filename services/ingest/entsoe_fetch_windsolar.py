@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # List of years to process
-YEARS = [2025] #2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
+YEARS = [2015, 2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024]
 
 # read API key from environment variable
 ENTSOE_API_KEY = os.environ.get("ENTSOE_API_KEY")
@@ -53,7 +53,7 @@ for Year in YEARS:
         
         # Define start and end dates for the loop
         current_date = datetime(Year, 1, 1)
-        end_date = datetime(Year, 2, 20)
+        end_date = datetime(Year, 12, 31)
 
         while current_date <= end_date:
             # Format: YYYYMMDD2200
@@ -121,12 +121,12 @@ for Year in YEARS:
             df = pd.DataFrame(year_data_rows)
 
             # Save as Parquet
-            output_file = f"/home/niitiin/projects/energy-market-intelligence-engine/services/ingest/data/entsoe_generation_ws{Year}.parquet"
+            output_file = f"/home/lateef/projects/energy-market-intelligence-engine/data/entsoe_windsolar/entsoe_generation_ws{Year}.parquet"
             df.to_parquet(output_file, index=False)
             print(f"--- Saved {len(df)} rows to {output_file} ---")
 
-            # Upload to Azure Blob Storage
-            #BLOB_NAME = f"data/entsoe/wind_solar_forecast/entsoe_data_ws{Year}.parquet"
-            #upload_file_to_blob(output_file, CONNECTION_STRING, CONTAINER_NAME, BLOB_NAME)
+            #Upload to Azure Blob Storage
+            BLOB_NAME = f"data/entsoe/wind_solar_forecast/entsoe_data_ws{Year}.parquet"
+            upload_file_to_blob(output_file, CONNECTION_STRING, CONTAINER_NAME, BLOB_NAME)
         else:
             print(f"No data collected for Year {Year}")
