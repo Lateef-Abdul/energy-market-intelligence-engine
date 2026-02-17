@@ -13,7 +13,8 @@ load_dotenv()
 # --- Azure Storage Configuration (Loaded Once) ---
 CONNECTION_STRING = os.environ.get("AZURE_STORAGE_CONNECTION_STRING") 
 CONTAINER_NAME = "landing"
-BASE_BLOB_PATH = "data/weather_data/weather_data" 
+BASE_BLOB_PATH_HORLY = "data/weather_data/hourly/weather_data"
+BASE_BLOB_PATH_DAILY = "data/weather_data/daily/weather_data"
 
 if not CONNECTION_STRING:
     raise ValueError("AZURE_STORAGE_CONNECTION_STRING environment variable is not set. Please check your .env file.")
@@ -53,7 +54,7 @@ def upload_dataframe_to_blob(dataframe: pd.DataFrame, connection_string: str, co
 
 
 # --- 3. Loop through the years and fetch data ---
-years_to_fetch = range(2023, 2026) 
+years_to_fetch = range(2015, 2026) 
 # The actual end date from the API error was 2025-12-08 
 today = datetime.date(2025, 12, 8) 
 
@@ -113,7 +114,7 @@ for year in years_to_fetch:
         print(f"Data fetched for {year}. Rows: {len(hourly_dataframe)}")
         
         # --- KEY CHANGE 2: Update the blob name extension ---
-        BLOB_NAME_YEARLY = f"{BASE_BLOB_PATH}_{year}_hourly.parquet"
+        BLOB_NAME_YEARLY = f"{BASE_BLOB_PATH_HORLY}_{year}_hourly.parquet"
         
         # Execute the upload function
         upload_dataframe_to_blob(hourly_dataframe, CONNECTION_STRING, CONTAINER_NAME, BLOB_NAME_YEARLY)
@@ -136,7 +137,7 @@ for year in years_to_fetch:
         daily_dataframe = pd.DataFrame(data = daily_data)
         print(f"Data fetched for {year}. Rows: {len(daily_dataframe)}")
         
-        BLOB_NAME_YEARLY = f"{BASE_BLOB_PATH}_{year}_daily.parquet"
+        BLOB_NAME_YEARLY = f"{BASE_BLOB_PATH_DAILY}_{year}_daily.parquet"
         upload_dataframe_to_blob(daily_dataframe, CONNECTION_STRING, CONTAINER_NAME, BLOB_NAME_YEARLY)
         
     except Exception as e:
